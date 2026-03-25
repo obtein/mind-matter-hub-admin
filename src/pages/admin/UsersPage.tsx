@@ -161,9 +161,12 @@ export default function UsersPage() {
                 className="px-3 py-1.5 text-sm rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-blue-500"
               />
             </div>
+            {newPassword.length > 0 && newPassword.length < 8 && (
+              <span className="text-xs text-red-400 self-center">Min. 8 karakter</span>
+            )}
             <button
               onClick={() => createUser.mutate()}
-              disabled={createUser.isPending || !newEmail || !newPassword}
+              disabled={createUser.isPending || !newEmail || newPassword.length < 8}
               className="px-4 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded transition-colors"
             >
               {createUser.isPending ? 'Creating...' : 'Create'}

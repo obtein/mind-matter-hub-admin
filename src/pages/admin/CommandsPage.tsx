@@ -33,8 +33,14 @@ export default function CommandsPage() {
     refetchInterval: 15000,
   });
 
+  const ALLOWED_COMMANDS = ['force_update', 'show_message', 'restart'] as const;
+
   const sendCommand = useMutation({
     mutationFn: async (params: { command_type: string; payload?: any; target_user_id?: string | null }) => {
+      if (!ALLOWED_COMMANDS.includes(params.command_type as any)) {
+        throw new Error(`Invalid command type: ${params.command_type}`);
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 

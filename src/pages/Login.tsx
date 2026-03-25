@@ -22,11 +22,16 @@ export default function Login() {
         .eq('user_id', data.user.id)
         .maybeSingle();
 
-      if (adminError) throw adminError;
+      if (adminError) {
+        console.error('Admin check error:', adminError);
+        await supabase.auth.signOut();
+        toast.error('Yetki kontrolü başarısız. Lütfen tekrar deneyin.');
+        return;
+      }
 
       if (!adminUser) {
         await supabase.auth.signOut();
-        toast.error('Access denied. You are not an admin.');
+        toast.error('Erişim reddedildi. Admin yetkiniz yok.');
         return;
       }
 
