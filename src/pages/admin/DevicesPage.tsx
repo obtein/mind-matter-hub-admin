@@ -35,35 +35,35 @@ export default function DevicesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold text-white">Devices</h1>
+        <h1 className="text-xl font-bold text-white">Cihazlar</h1>
         <button
           onClick={() => refetch()}
           className="flex items-center gap-2 px-3 py-1.5 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded transition-colors"
         >
           <RefreshCw size={14} />
-          Refresh
+          Yenile
         </button>
       </div>
       {dataUpdatedAt > 0 && (
         <p className="text-xs text-slate-500 mb-3">
-          Last updated: {new Date(dataUpdatedAt).toLocaleTimeString()}
+          Son güncelleme: {new Date(dataUpdatedAt).toLocaleTimeString()}
         </p>
       )}
       {isLoading ? (
-        <p className="text-slate-400">Loading devices...</p>
+        <p className="text-slate-400">Cihazlar yükleniyor...</p>
       ) : !devices?.length ? (
-        <p className="text-slate-400">No devices found.</p>
+        <p className="text-slate-400">Cihaz bulunamadı.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 uppercase bg-slate-800 border-b border-slate-700">
               <tr>
-                <th className="px-4 py-3">User Email</th>
-                <th className="px-4 py-3">App Version</th>
+                <th className="px-4 py-3">Kullanıcı E-posta</th>
+                <th className="px-4 py-3">Uygulama Sürümü</th>
                 <th className="px-4 py-3">Platform</th>
-                <th className="px-4 py-3">OS</th>
-                <th className="px-4 py-3">Last Seen</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">İşletim Sistemi</th>
+                <th className="px-4 py-3">Son Görülme</th>
+                <th className="px-4 py-3">Durum</th>
               </tr>
             </thead>
             <tbody>
@@ -87,7 +87,7 @@ export default function DevicesPage() {
                         }`}
                       >
                         <span className={`w-2 h-2 rounded-full ${online ? 'bg-green-400' : 'bg-red-400'}`} />
-                        {online ? 'Online' : 'Offline'}
+                        {online ? 'Çevrimiçi' : 'Çevrimdışı'}
                       </span>
                     </td>
                   </tr>

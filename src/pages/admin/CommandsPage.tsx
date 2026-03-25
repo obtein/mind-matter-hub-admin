@@ -68,12 +68,12 @@ export default function CommandsPage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success('Command sent');
+      toast.success('Komut gönderildi');
       queryClient.invalidateQueries({ queryKey: ['admin_commands'] });
       setMessageText('');
     },
     onError: (err: any) => {
-      toast.error(err.message || 'Failed to send command');
+      toast.error(err.message || 'Komut gönderilemedi');
     },
   });
 
@@ -87,7 +87,7 @@ export default function CommandsPage() {
 
   const handleSendMessage = () => {
     if (!messageText.trim()) {
-      toast.error('Please enter a message');
+      toast.error('Lütfen bir mesaj girin');
       return;
     }
     sendCommand.mutate({
@@ -98,14 +98,14 @@ export default function CommandsPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-white mb-4">Commands</h1>
+      <h1 className="text-xl font-bold text-white mb-4">Komutlar</h1>
 
-      {/* Target filter */}
+      {/* Hedef filtresi */}
       <div className="mb-4">
-        <label className="block text-slate-400 text-xs mb-1">Target user email (empty = all)</label>
+        <label className="block text-slate-400 text-xs mb-1">Hedef kullanıcı e-posta (boş = tümü)</label>
         <input
           type="text"
-          placeholder="user@example.com or leave empty for all"
+          placeholder="kullanici@ornek.com veya tümü için boş bırakın"
           value={targetEmail}
           onChange={e => setTargetEmail(e.target.value)}
           className="px-3 py-1.5 text-sm rounded bg-slate-700 text-white border border-slate-600 w-80 focus:outline-none focus:border-blue-500"
@@ -120,7 +120,7 @@ export default function CommandsPage() {
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded text-sm font-medium transition-colors"
         >
           <RefreshCw size={16} />
-          Force Update All
+          Tümünü Güncelle
         </button>
         <button
           onClick={handleRestartAll}
@@ -128,20 +128,20 @@ export default function CommandsPage() {
           className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:bg-orange-800 text-white rounded text-sm font-medium transition-colors"
         >
           <RotateCcw size={16} />
-          Restart All
+          Tümünü Yeniden Başlat
         </button>
       </div>
 
-      {/* Send message */}
+      {/* Mesaj gönder */}
       <div className="mb-6 p-4 bg-slate-800 rounded-lg border border-slate-700">
         <h3 className="text-sm font-medium text-white mb-2 flex items-center gap-2">
           <MessageSquare size={16} />
-          Send Message
+          Mesaj Gönder
         </h3>
         <div className="flex gap-2">
           <input
             type="text"
-            placeholder="Type your message..."
+            placeholder="Mesajınızı yazın..."
             value={messageText}
             onChange={e => setMessageText(e.target.value)}
             className="flex-1 px-3 py-2 text-sm rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:border-blue-500"
@@ -153,27 +153,27 @@ export default function CommandsPage() {
             className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-800 text-white rounded text-sm font-medium transition-colors"
           >
             <Send size={16} />
-            Send
+            Gönder
           </button>
         </div>
       </div>
 
-      {/* Command history */}
-      <h2 className="text-lg font-semibold text-white mb-3">Command History</h2>
+      {/* Komut geçmişi */}
+      <h2 className="text-lg font-semibold text-white mb-3">Komut Geçmişi</h2>
       {isLoading ? (
-        <p className="text-slate-400">Loading...</p>
+        <p className="text-slate-400">Yükleniyor...</p>
       ) : !commands?.length ? (
-        <p className="text-slate-400">No commands sent yet.</p>
+        <p className="text-slate-400">Henüz komut gönderilmedi.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 uppercase bg-slate-800 border-b border-slate-700">
               <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Payload</th>
-                <th className="px-4 py-3">Target</th>
-                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Tarih</th>
+                <th className="px-4 py-3">Tür</th>
+                <th className="px-4 py-3">Veri</th>
+                <th className="px-4 py-3">Hedef</th>
+                <th className="px-4 py-3">Durum</th>
               </tr>
             </thead>
             <tbody>
@@ -187,7 +187,7 @@ export default function CommandsPage() {
                     {cmd.payload ? JSON.stringify(cmd.payload) : '-'}
                   </td>
                   <td className="px-4 py-3 text-slate-300">
-                    {cmd.target_user_id || 'All'}
+                    {cmd.target_user_id || 'Tümü'}
                   </td>
                   <td className="px-4 py-3">
                     <span

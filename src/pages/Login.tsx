@@ -35,9 +35,9 @@ export default function Login() {
         return;
       }
 
-      toast.success('Welcome, Admin!');
+      toast.success('Hoş geldiniz!');
     } catch (err: any) {
-      toast.error(err.message || 'Login failed');
+      toast.error(err.message || 'Giriş başarısız');
     } finally {
       setLoading(false);
     }
@@ -53,7 +53,7 @@ export default function Login() {
           PsiTrak Admin
         </h1>
         <div className="mb-4">
-          <label className="block text-slate-300 text-sm mb-1">Email</label>
+          <label className="block text-slate-300 text-sm mb-1">E-posta</label>
           <input
             type="email"
             value={email}
@@ -63,7 +63,7 @@ export default function Login() {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-slate-300 text-sm mb-1">Password</label>
+          <label className="block text-slate-300 text-sm mb-1">Şifre</label>
           <input
             type="password"
             value={password}
@@ -77,7 +77,7 @@ export default function Login() {
           disabled={loading}
           className="w-full py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded font-medium transition-colors"
         >
-          {loading ? 'Signing in...' : 'Sign In'}
+          {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
         </button>
       </form>
     </div>

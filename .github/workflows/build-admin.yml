@@ -1,0 +1,43 @@
+name: "Build & Release Admin App"
+
+on:
+  push:
+    tags:
+      - "admin-v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    name: "Build (Windows x64)"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "src-tauri -> target"
+      - name: Install dependencies
+        run: npm install
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: admin-v__VERSION__
+          releaseName: "PsiTrak Admin v__VERSION__"
+          releaseBody: "PsiTrak Admin yeni sürüm."
+          releaseDraft: false
+          prerelease: false
+          args: --target x86_64-pc-windows-msvc

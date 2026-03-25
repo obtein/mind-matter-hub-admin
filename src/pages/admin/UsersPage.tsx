@@ -68,14 +68,14 @@ export default function UsersPage() {
       return data;
     },
     onSuccess: () => {
-      toast.success('User created successfully');
+      toast.success('Kullanıcı başarıyla oluşturuldu');
       setNewEmail('');
       setNewPassword('');
       setShowCreateForm(false);
       queryClient.invalidateQueries({ queryKey: ['admin_user_list'] });
     },
     onError: (err: any) => {
-      toast.error(err.message || 'Failed to create user');
+      toast.error(err.message || 'Kullanıcı oluşturulamadı');
     },
   });
 
@@ -95,11 +95,11 @@ export default function UsersPage() {
       }
     },
     onSuccess: () => {
-      toast.success('Admin status updated');
+      toast.success('Admin durumu güncellendi');
       queryClient.invalidateQueries({ queryKey: ['admin_user_list'] });
     },
     onError: (err: any) => {
-      toast.error(err.message || 'Failed to update admin status');
+      toast.error(err.message || 'Admin durumu güncellenemedi');
     },
   });
 
@@ -109,31 +109,31 @@ export default function UsersPage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success('Password reset email sent');
+      toast.success('Şifre sıfırlama e-postası gönderildi');
     },
     onError: (err: any) => {
-      toast.error(err.message || 'Failed to send reset email');
+      toast.error(err.message || 'Sıfırlama e-postası gönderilemedi');
     },
   });
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold text-white">Users</h1>
+        <h1 className="text-xl font-bold text-white">Kullanıcılar</h1>
         <div className="flex gap-2">
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
             className="flex items-center gap-2 px-3 py-1.5 text-sm bg-green-600 hover:bg-green-700 text-white rounded transition-colors"
           >
             <UserPlus size={14} />
-            New User
+            Yeni Kullanıcı
           </button>
           <button
             onClick={() => refetch()}
             className="flex items-center gap-2 px-3 py-1.5 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded transition-colors"
           >
             <RefreshCw size={14} />
-            Refresh
+            Yenile
           </button>
         </div>
       </div>
@@ -141,10 +141,10 @@ export default function UsersPage() {
       {/* Create user form */}
       {showCreateForm && (
         <div className="mb-4 p-4 bg-slate-800 rounded-lg border border-slate-700">
-          <h3 className="text-sm font-medium text-white mb-3">Create New User</h3>
+          <h3 className="text-sm font-medium text-white mb-3">Yeni Kullanıcı Oluştur</h3>
           <div className="flex flex-wrap gap-3 items-end">
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Email</label>
+              <label className="block text-xs text-slate-400 mb-1">E-posta</label>
               <input
                 type="email"
                 value={newEmail}
@@ -153,7 +153,7 @@ export default function UsersPage() {
               />
             </div>
             <div>
-              <label className="block text-xs text-slate-400 mb-1">Password</label>
+              <label className="block text-xs text-slate-400 mb-1">Şifre</label>
               <input
                 type="password"
                 value={newPassword}
@@ -169,31 +169,31 @@ export default function UsersPage() {
               disabled={createUser.isPending || !newEmail || newPassword.length < 8}
               className="px-4 py-1.5 text-sm bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white rounded transition-colors"
             >
-              {createUser.isPending ? 'Creating...' : 'Create'}
+              {createUser.isPending ? 'Oluşturuluyor...' : 'Oluştur'}
             </button>
             <button
               onClick={() => setShowCreateForm(false)}
               className="px-4 py-1.5 text-sm bg-slate-600 hover:bg-slate-500 text-white rounded transition-colors"
             >
-              Cancel
+              İptal
             </button>
           </div>
         </div>
       )}
 
       {isLoading ? (
-        <p className="text-slate-400">Loading users...</p>
+        <p className="text-slate-400">Kullanıcılar yükleniyor...</p>
       ) : !users?.length ? (
-        <p className="text-slate-400">No users found.</p>
+        <p className="text-slate-400">Kullanıcı bulunamadı.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 uppercase bg-slate-800 border-b border-slate-700">
               <tr>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">User ID</th>
+                <th className="px-4 py-3">E-posta</th>
+                <th className="px-4 py-3">Kullanıcı ID</th>
                 <th className="px-4 py-3">Admin</th>
-                <th className="px-4 py-3">Actions</th>
+                <th className="px-4 py-3">İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -208,7 +208,7 @@ export default function UsersPage() {
                       </span>
                     ) : (
                       <span className="px-2 py-0.5 rounded text-xs font-medium bg-slate-700 text-slate-400">
-                        User
+                        Kullanıcı
                       </span>
                     )}
                   </td>
@@ -216,14 +216,14 @@ export default function UsersPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => toggleAdmin.mutate({ userId: user.id, makeAdmin: !user.is_admin })}
-                        title={user.is_admin ? 'Remove admin' : 'Make admin'}
+                        title={user.is_admin ? 'Admin yetkisini kaldır' : 'Admin yap'}
                         className="p-1.5 rounded hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
                       >
                         {user.is_admin ? <ShieldOff size={16} /> : <ShieldCheck size={16} />}
                       </button>
                       <button
                         onClick={() => resetPassword.mutate(user.email)}
-                        title="Send password reset"
+                        title="Şifre sıfırlama gönder"
                         className="p-1.5 rounded hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
                       >
                         <KeyRound size={16} />

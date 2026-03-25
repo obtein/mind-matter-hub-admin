@@ -4,10 +4,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const navItems = [
-  { to: '/devices', label: 'Devices', icon: Monitor },
-  { to: '/logs', label: 'Logs', icon: ScrollText },
-  { to: '/commands', label: 'Commands', icon: Terminal },
-  { to: '/users', label: 'Users', icon: Users },
+  { to: '/devices', label: 'Cihazlar', icon: Monitor },
+  { to: '/logs', label: 'Loglar', icon: ScrollText },
+  { to: '/commands', label: 'Komutlar', icon: Terminal },
+  { to: '/users', label: 'Kullanıcılar', icon: Users },
 ];
 
 export default function AdminSidebar() {
@@ -15,7 +15,7 @@ export default function AdminSidebar() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    toast.info('Logged out');
+    toast.info('Çıkış yapıldı');
     navigate('/login');
   };
 
@@ -23,7 +23,7 @@ export default function AdminSidebar() {
     <aside className="w-56 bg-slate-800 min-h-screen flex flex-col border-r border-slate-700">
       <div className="p-4 border-b border-slate-700">
         <h2 className="text-lg font-bold text-white">PsiTrak Admin</h2>
-        <p className="text-xs text-slate-400">Control Panel</p>
+        <p className="text-xs text-slate-400">Kontrol Paneli</p>
       </div>
       <nav className="flex-1 p-2">
         {navItems.map(item => (
@@ -49,7 +49,7 @@ export default function AdminSidebar() {
           className="flex items-center gap-3 px-3 py-2 rounded text-sm text-slate-300 hover:bg-slate-700 w-full transition-colors"
         >
           <LogOut size={18} />
-          Logout
+          Çıkış
         </button>
       </div>
     </aside>
