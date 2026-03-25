@@ -28,6 +28,8 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           workspaces: "src-tauri -> target"
+          cache-on-failure: false
+          prefix-key: "admin-v2"
       - name: Install dependencies
         run: npm install
       - name: Build Tauri app
