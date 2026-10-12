@@ -91,7 +91,7 @@ export default function CommandsPage() {
       return;
     }
     sendCommand.mutate({
-      command_type: 'send_message',
+      command_type: 'show_message',
       payload: { message: messageText.trim() },
     });
   };
