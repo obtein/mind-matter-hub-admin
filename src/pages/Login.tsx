@@ -12,30 +12,9 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      // App.tsx checks admin_users for every session and signs non-admins out.
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-
-      // Check if user is in admin_users table
-      const { data: adminUser, error: adminError } = await supabase
-        .from('admin_users')
-        .select('id')
-        .eq('user_id', data.user.id)
-        .maybeSingle();
-
-      if (adminError) {
-        console.error('Admin check error:', adminError);
-        await supabase.auth.signOut();
-        toast.error('Yetki kontrolü başarısız. Lütfen tekrar deneyin.');
-        return;
-      }
-
-      if (!adminUser) {
-        await supabase.auth.signOut();
-        toast.error('Erişim reddedildi. Admin yetkiniz yok.');
-        return;
-      }
-
-      toast.success('Hoş geldiniz!');
     } catch (err: any) {
       toast.error(err.message || 'Giriş başarısız');
     } finally {

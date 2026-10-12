@@ -194,9 +194,9 @@ export default function CommandsPage() {
                       className={`px-2 py-0.5 rounded text-xs font-medium ${
                         cmd.status === 'pending'
                           ? 'bg-yellow-900/50 text-yellow-400'
-                          : cmd.status === 'completed'
+                          : cmd.status === 'executed'
                           ? 'bg-green-900/50 text-green-400'
-                          : 'bg-slate-700 text-slate-400'
+                          : 'bg-slate-700 text-slate-400' /* expired or unknown */
                       }`}
                     >
                       {cmd.status}

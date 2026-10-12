@@ -1,8 +1,29 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UserPlus, RefreshCw, ShieldCheck, ShieldOff, KeyRound } from 'lucide-react';
+
+// signUp on the shared client would replace the admin's own session with the new
+// user's session. This client keeps the new session in memory only and is created
+// once, so supabase-js does not warn about multiple instances.
+let signupClient: SupabaseClient | null = null;
+function getSignupClient(): SupabaseClient {
+  signupClient ??= createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+        storageKey: 'psitrak-admin-signup',
+      },
+    },
+  );
+  return signupClient;
+}
 
 interface UserRecord {
   id: string;
@@ -59,16 +80,19 @@ export default function UsersPage() {
 
   const createUser = useMutation({
     mutationFn: async () => {
-      // Use Supabase Auth admin invite or signUp
-      const { data, error } = await supabase.auth.signUp({
+      const client = getSignupClient();
+      const { data, error } = await client.auth.signUp({
         email: newEmail,
         password: newPassword,
       });
       if (error) throw error;
+      if (data.session) await client.auth.signOut({ scope: 'local' });
       return data;
     },
     onSuccess: () => {
-      toast.success('Kullanıcı başarıyla oluşturuldu');
+      // The list is built from device_heartbeats, so the user shows up after the
+      // PsiTrak app has sent its first heartbeat.
+      toast.success('Kullanıcı oluşturuldu. PsiTrak uygulamasına ilk girişinden sonra listede görünür.');
       setNewEmail('');
       setNewPassword('');
       setShowCreateForm(false);
